@@ -1,7 +1,7 @@
 import time
 import unittest
 
-from model.Player import Player
+from src.model.Player import Player
 
 
 class PlayerTest(unittest.TestCase):
