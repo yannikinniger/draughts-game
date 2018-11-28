@@ -7,7 +7,7 @@ from src.model.Player import Player
 class PlayerTest(unittest.TestCase):
 
     def test_should_run_of_10_seconds(self):
-        player = Player('test')
+        player = Player('test', 1)
         player.start_timer()
         time.sleep(10)
         player.stop_timer()
@@ -17,7 +17,7 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(expected_remaining_time, remaining_time)
 
     def test_should_add_points(self):
-        player = Player('test')
+        player = Player('test', 1)
         player.add_points(1)
         player.add_points(2)
         player.add_points(3)
@@ -27,7 +27,7 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(expected_score, score)
 
     def test_should_raise_error_on_negative_points(self):
-        player = Player('test')
+        player = Player('test', 1)
         with self.assertRaises(ValueError):
             player.add_points(-1)
         with self.assertRaises(ValueError):

@@ -3,8 +3,9 @@ import time
 
 class Player:
 
-    def __init__(self, name):
+    def __init__(self, name, id):
         self.name = name
+        self.id = id
         self.score = 0
         self.remaining_time = 300.  # 5 Minutes in Seconds
         self.timer = 0
