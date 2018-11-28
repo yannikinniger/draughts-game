@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
-from board.Board import Board
+from view.Board import Board
 
 
 class DraughtsGame(QMainWindow):
