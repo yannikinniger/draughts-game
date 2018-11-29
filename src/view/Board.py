@@ -1,6 +1,8 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPainter, QBrush
+from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
+
+from view.drawing import draw_circle, draw_rect
 
 
 class Board(QWidget):
@@ -35,19 +37,9 @@ class Board(QWidget):
         for row in range(0, Board.board_size):
             start_column = 0 if row % 2 == 1 else 1
             for column in range(start_column, Board.board_size, 2):
-                self.draw_rect(column * self.rect_width, row * self.rect_height, painter)
-
-    def draw_rect(self, x_offset, y_offset, painter):
-        """
-        Draws a single rectangle on the Widget
-        :param x_offset: x offset from the top left rectangle
-        :param y_offset: y offset from the top left rectangle
-        :param painter: QPainter to draw the rectangle
-        """
-        painter.save()
-        painter.translate(x_offset, y_offset)
-        painter.fillRect(0, 0, self.rect_width, self.rect_height, Qt.black)
-        painter.restore()
+                rect_x = self.rect_width * row
+                rect_y = self.rect_height * column
+                draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter)
 
     def render_pieces(self, painter):
         """
@@ -72,7 +64,7 @@ class Board(QWidget):
                         color = Board.get_color(column)
                         circle_x = self.rect_width * column_index
                         circle_y = self.rect_height * row_index
-                        self.draw_circle(circle_x, circle_y, painter, color)
+                        draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, color)
 
     @staticmethod
     def get_color(player_id):
@@ -80,21 +72,3 @@ class Board(QWidget):
             return Qt.red
         elif player_id == 2:
             return Qt.blue
-
-    def draw_circle(self, x_offset, y_offset, painter, color):
-        """
-        Draws a single rectangle on the Widget
-        :param x_offset: x offset from the top left rectangle
-        :param y_offset: y offset from the top left rectangle
-        :param painter: QPainter to draw the rectangle
-        :param color: Color the circle should be filled with
-        """
-        size_reduction = 5
-        painter.setBrush(QBrush(color))
-        painter.save()
-        painter.translate(x_offset, y_offset)
-
-        circle_width = self.rect_width - size_reduction * 2
-        circle_height = self.rect_height - size_reduction * 2
-        painter.drawEllipse(size_reduction, size_reduction, circle_width, circle_height)
-        painter.restore()
