@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QFrame
 from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal, QPoint
 from PyQt5.QtGui import QPainter
+from PyQt5.QtWidgets import QFrame
 
 from piece import Piece
+
 
 class Board(QFrame):
     msg2Statusbar = pyqtSignal(str)
@@ -10,7 +11,7 @@ class Board(QFrame):
     # todo set the board with and height in square
     boardWidth = 0
     boardHeight = 0
-    Speed =300
+    Speed = 300
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -26,9 +27,8 @@ class Board(QFrame):
         self.isPaused = False
         self.resetGame()
 
-        self.boardArray # 2d int/Piece array to story the state of the game
+        self.boardArray  # 2d int/Piece array to story the state of the game
         self.printBoardArray()
-
 
     def printBoardArray(self):
         '''prints the boardArray in an arractive way'''
@@ -125,7 +125,7 @@ class Board(QFrame):
 
     def timerEvent(self, event):
         '''handles timer event'''
-        #todo adapter this code to handle your timers
+        # todo adapter this code to handle your timers
 
         if event.timerId() == self.timer.timerId():
             pass
@@ -143,12 +143,12 @@ class Board(QFrame):
         '''draw all the square on the board'''
         # todo set the dafault colour of the brush
         for row in range(0, Board.boardHeight):
-            for col in range (0, Board.boardWidth):
+            for col in range(0, Board.boardWidth):
                 painter.save()
-                colTransformation = 0# Todo set this value equal the transformation you would like in the column direction
-                rowTransformation = 0 # Todo set this value equal the transformation you would like in the column direction
-                painter.translate(colTransformation,rowTransformation)
-                painter.fillRect() # Todo provide the required arguements
+                colTransformation = 0  # Todo set this value equal the transformation you would like in the column direction
+                rowTransformation = 0  # Todo set this value equal the transformation you would like in the column direction
+                painter.translate(colTransformation, rowTransformation)
+                painter.fillRect()  # Todo provide the required arguements
                 painter.restore()
                 # todo change the colour of the brush so that a checkered board is drawn
 
@@ -159,11 +159,10 @@ class Board(QFrame):
             for col in range(0, len(self.boardArray[0])):
                 painter.save()
                 painter.translate()
-                #Todo choose your colour and set the painter brush to the correct colour
-
+                # Todo choose your colour and set the painter brush to the correct colour
 
                 # Todo draw some the pieces as elipses
-                    radius = (self.squareWidth() - 2) / 2
-                    center = QPoint(radius, radius)
-                    painter.drawEllipse(center, radius, radius)
+                radius = (self.squareWidth() - 2) / 2
+                center = QPoint(radius, radius)
+                painter.drawEllipse(center, radius, radius)
                 painter.restore()
