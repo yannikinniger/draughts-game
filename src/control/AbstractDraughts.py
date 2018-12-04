@@ -12,9 +12,9 @@ class AbstractDraughts:
     def init_board(self):
         def get_player_id(current_row):
             if current_row in range(0, 3):
-                return self.player_1.id
+                return self.player_1.uid
             elif current_row in range(self.board_size - 3, self.board_size):
-                return self.player_2.id
+                return self.player_2.uid
             else:
                 return 0
 
