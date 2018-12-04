@@ -25,7 +25,7 @@ class Player:
         self.remaining_time -= time_elapsed
         self.timer = 0  # reset timer
 
-    def add_points(self, points_to_add):
+    def add_points(self, points_to_add=1):
         """
         Adds point to the players score
         :param points_to_add: Positive integer to be added to the total score
