@@ -1,3 +1,4 @@
+from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
@@ -8,9 +9,10 @@ from view.drawing import draw_circle, draw_rect
 class Board(QWidget):
     board_size = 8
 
-    def __init__(self, parent):
+    def __init__(self, parent, draughts_game):
         super().__init__(parent)
         self.resize(parent.size())
+        self.draughts_game = draughts_game
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
 
     def calculate_rectangle_size(self):
@@ -47,17 +49,7 @@ class Board(QWidget):
         :param painter: QPainter to draw the pieces. The brush will be changed in the method.
         """
         # placeholder until the board can be received from the game object
-        board = [
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [1, 0, 1, 0, 1, 0, 1, 0],
-            [0, 1, 0, 1, 0, 1, 0, 1],
-            [0] * 8,
-            [0] * 8,
-            [2, 0, 2, 0, 2, 0, 2, 0],
-            [0, 2, 0, 2, 0, 2, 0, 2],
-            [2, 0, 2, 0, 2, 0, 2, 0]
-        ]
-        for row_index, row in enumerate(board):
+        for row_index, row in enumerate(self.draughts_game.board):
             if row != [0] * 8:
                 for column_index, column in enumerate(row):
                     if column != 0:
@@ -72,3 +64,13 @@ class Board(QWidget):
             return Qt.red
         elif player_id == 2:
             return Qt.blue
+
+    def mousePressEvent(self, event: QtGui.QMouseEvent):
+        row, column = self.get_rectangle_position(event.x(), event.y())
+        if row in range(0, Board.board_size) and column in range(0, Board.board_size):
+            self.draughts_game.click_event(row, column)
+
+    def get_rectangle_position(self, x, y):
+        column = int(x / self.rect_width)
+        row = int(y / self.rect_height)
+        return row, column
