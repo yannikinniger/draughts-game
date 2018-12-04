@@ -70,6 +70,12 @@ class Board(QWidget):
             self.draughts_game.click_event(row, column)
 
     def get_rectangle_position(self, x, y):
+        """
+        Calculates the position of the mouse click on the grid.
+        :param x: X coordinate of the mouse click
+        :param y: Y coordinate of the mouse click
+        :return: Column and row of the mouse click
+        """
         column = int(x / self.rect_width)
         row = int(y / self.rect_height)
         return row, column
