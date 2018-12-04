@@ -1,9 +1,11 @@
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
+from control.AbstractDraughts import AbstractDraughts
+from model.Player import Player
 from view.Board import Board
 
 
-class DraughtsGame(QMainWindow):
+class DraughtsWindow(QMainWindow):
     width = 700
     height = 700
 
@@ -11,8 +13,9 @@ class DraughtsGame(QMainWindow):
         super().__init__()
         self.setWindowTitle('Draught')
         start_x, start_y = self.calculate_start_position()
-        self.setGeometry(start_x, start_y, DraughtsGame.width, DraughtsGame.height)
-        self.board = Board(self)
+        self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
+        player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
+        self.board = Board(self, AbstractDraughts(player1, player2))
         self.show()
 
     def __layout(self):
@@ -25,6 +28,6 @@ class DraughtsGame(QMainWindow):
         :return: x and y coordinates of the window to be centered
         """
         screen_resolution = QDesktopWidget().screenGeometry()
-        x = (screen_resolution.width() / 2) - (DraughtsGame.width / 2)
-        y = (screen_resolution.height() / 2) - (DraughtsGame.height / 2)
+        x = (screen_resolution.width() / 2) - (DraughtsWindow.width / 2)
+        y = (screen_resolution.height() / 2) - (DraughtsWindow.height / 2)
         return int(x), int(y)
