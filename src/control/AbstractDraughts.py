@@ -57,3 +57,11 @@ class AbstractDraughts:
         :param key_event: Keypress event by PyQt
         """
         pass
+
+    @abc.abstractmethod
+    def get_possible_moves(self, selected_row, selected_column):
+        """
+        Calculates the possible moves for the currently selected piece.
+        :return: Full board with non zero code for possible moves
+        """
+        pass
