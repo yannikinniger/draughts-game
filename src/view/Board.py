@@ -7,7 +7,6 @@ from view.drawing import draw_circle, draw_rect
 
 
 class Board(QWidget):
-    board_size = 8
 
     def __init__(self, parent, draughts_game):
         super().__init__(parent)
@@ -21,8 +20,8 @@ class Board(QWidget):
         :return: width and height of the rectangles
         """
         size = self.size()
-        rect_width = size.width() / Board.board_size
-        rect_height = size.height() / Board.board_size
+        rect_width = size.width() / self.draughts_game.board_size
+        rect_height = size.height() / self.draughts_game.board_size
         return int(rect_width), int(rect_height)
 
     def paintEvent(self, event):
@@ -36,9 +35,9 @@ class Board(QWidget):
         Draws the checkered game board as a background
         :param painter: QPainter to draw the rectangles
         """
-        for row in range(0, Board.board_size):
+        for row in range(0, self.draughts_game.board_size):
             start_column = 0 if row % 2 == 1 else 1
-            for column in range(start_column, Board.board_size, 2):
+            for column in range(start_column, self.draughts_game.board_size, 2):
                 rect_x = self.rect_width * row
                 rect_y = self.rect_height * column
                 draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter)
@@ -67,7 +66,7 @@ class Board(QWidget):
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())
-        if row in range(0, Board.board_size) and column in range(0, Board.board_size):
+        if row in range(0, self.draughts_game.board_size) and column in range(0, self.draughts_game.board_size):
             self.draughts_game.click_event(row, column)
 
     def get_rectangle_position(self, x, y):
