@@ -6,6 +6,7 @@ class AbstractDraughts:
     def __init__(self, player_1, player_2):
         self.player_1 = player_1
         self.player_2 = player_2
+        self.current_player = player_1
         self.board_size = 8
         self.board = self.init_board()
 
