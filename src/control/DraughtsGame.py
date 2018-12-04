@@ -17,3 +17,8 @@ class DraughtsGame(AbstractDraughts):
 
     def key_event(self, key_event):
         pass
+
+    def get_possible_moves(self, selected_row, selected_column):
+        pass
+
+
