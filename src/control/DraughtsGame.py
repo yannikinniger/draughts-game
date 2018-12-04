@@ -20,5 +20,3 @@ class DraughtsGame(AbstractDraughts):
 
     def get_possible_moves(self, selected_row, selected_column):
         pass
-
-
