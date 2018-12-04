@@ -2,9 +2,9 @@ import sys
 
 from PyQt5.QtWidgets import QApplication
 
-from DraughtsGame import DraughtsGame
+from DraughtsWindow import DraughtsWindow
 
 if __name__ == '__main__':
     app = QApplication([])
-    draughts = DraughtsGame()
+    draughts = DraughtsWindow()
     sys.exit(app.exec_())
