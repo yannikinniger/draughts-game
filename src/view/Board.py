@@ -47,12 +47,11 @@ class Board(QWidget):
         Renders all the pieces on the board.
         :param painter: QPainter to draw the pieces. The brush will be changed in the method.
         """
-        # placeholder until the board can be received from the game object
-        for row_index, row in enumerate(self.draughts_game.board):
-            if row != [0] * 8:
-                for column_index, column in enumerate(row):
-                    if column != 0:
-                        color = Board.get_color(column)
+        for row_index, row_array in enumerate(self.draughts_game.board):
+            if row_array != [0] * 8:
+                for column_index, column_value in enumerate(row_array):
+                    if column_value != 0:
+                        color = Board.get_color(column_value)
                         circle_x = self.rect_width * column_index
                         circle_y = self.rect_height * row_index
                         draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, color)
