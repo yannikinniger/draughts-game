@@ -1,5 +1,4 @@
 from PyQt5 import QtGui
-from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
 
@@ -51,17 +50,13 @@ class Board(QWidget):
             if row_array != [0] * 8:
                 for column_index, column_value in enumerate(row_array):
                     if column_value != 0:
-                        color = Board.get_color(column_value)
                         circle_x = self.rect_width * column_index
                         circle_y = self.rect_height * row_index
+                        if column_value == -1:
+                            color = self.draughts_game.current_player.color.lighter()
+                        else:
+                            color = self.draughts_game.get_player_color(column_value)
                         draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, color)
-
-    @staticmethod
-    def get_color(player_id):
-        if player_id == 1:
-            return Qt.red
-        elif player_id == 2:
-            return Qt.blue
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())

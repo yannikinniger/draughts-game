@@ -1,12 +1,18 @@
 import time
 
+from PyQt5.QtGui import QColor
+
 
 class Player:
 
     def __init__(self, name, uid, color):
         self.name = name
         self.uid = uid
-        self.color = color
+        if not isinstance(color, QColor):
+            self.color = QColor(color)
+        else:
+            self.color = color
+
         self.score = 0
         self.remaining_time = 300.  # 5 Minutes in Seconds
         self.timer = 0

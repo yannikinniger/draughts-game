@@ -27,6 +27,12 @@ class AbstractDraughts:
                 board[row][column] = get_player_id(row)
         return board
 
+    def get_player_color(self, player_uid):
+        if self.player_1.uid == player_uid:
+            return self.player_1.color
+        elif self.player_2.uid == player_uid:
+            return self.player_2.color
+
     @abc.abstractmethod
     def pause(self):
         """
