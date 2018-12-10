@@ -23,7 +23,7 @@ def draw_circle(rect_width, rect_height, x_offset, y_offset, painter, color):
     painter.restore()
 
 
-def draw_rect(rect_width, rect_height, x_offset, y_offset, painter):
+def draw_rect(rect_width, rect_height, x_offset, y_offset, painter, color):
     """
     Draws a rectangle on the Widget the painter belongs to
     :param rect_width: Width of the rectangle to be drawn
@@ -31,8 +31,9 @@ def draw_rect(rect_width, rect_height, x_offset, y_offset, painter):
     :param x_offset: x offset from the top left rectangle
     :param y_offset: y offset from the top left rectangle
     :param painter: QPainter to draw the rectangle
+    :param color: Color to fill the rectangle with
     """
     painter.save()
     painter.translate(x_offset, y_offset)
-    painter.fillRect(0, 0, rect_width, rect_height, Qt.black)
+    painter.fillRect(0, 0, rect_width, rect_height, color)
     painter.restore()
