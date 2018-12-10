@@ -19,6 +19,7 @@ class DraughtsGame(AbstractDraughts):
         if self.last_click is not None:
             self.move_piece(self.last_click.x(), self.last_click.y(), row, column)
             self.last_click = None
+            self.dispatch()
         else:
             self.last_click = QPoint(row, column)
 
@@ -26,7 +27,6 @@ class DraughtsGame(AbstractDraughts):
         pass
 
     def move_piece(self, from_row, from_column, to_row, to_column):
-        print(self.board[from_row][from_column])
         if self.board[from_row][from_column] > 0:
             self.board[from_row][from_column] = 0
             self.board[to_row][to_column] = self.current_player.uid

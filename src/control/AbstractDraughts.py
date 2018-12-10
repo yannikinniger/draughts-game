@@ -1,9 +1,12 @@
 import abc
 
+from control.Observer import Publisher
 
-class AbstractDraughts:
+
+class AbstractDraughts(Publisher):
 
     def __init__(self, player_1, player_2):
+        super().__init__()
         self.player_1 = player_1
         self.player_2 = player_2
         self.current_player = player_1

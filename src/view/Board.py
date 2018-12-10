@@ -2,13 +2,15 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
 
+from control.Observer import Subscriber
 from view.drawing import draw_circle, draw_rect
 
 
-class Board(QWidget):
+class Board(QWidget, Subscriber):
 
     def __init__(self, parent, draughts_game, size):
         super().__init__(parent)
+        draughts_game.register(self)
         self.resize(size)
         self.draughts_game = draughts_game
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
@@ -22,6 +24,9 @@ class Board(QWidget):
         rect_width = size.width() / self.draughts_game.board_size
         rect_height = size.height() / self.draughts_game.board_size
         return int(rect_width), int(rect_height)
+
+    def update(self):
+        self.repaint()
 
     def paintEvent(self, event):
         painter = QPainter(self)
