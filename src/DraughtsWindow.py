@@ -1,24 +1,33 @@
-from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QDockWidget, QLabel, QHBoxLayout, QWidget, QListWidget
 
 from control.AbstractDraughts import AbstractDraughts
 from model.Player import Player
 from view.Board import Board
+from view.GuiMixin import GuiMixin
+from view.ScoreBoard import ScoreBoard
 
 
-class DraughtsWindow(QMainWindow):
+class DraughtsWindow(QMainWindow, GuiMixin):
     width = 700
     height = 700
 
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Draught')
+    def __init__(self, parent=None):
+        QMainWindow.__init__(self, parent)
+        self.setWindowTitle('Draughts')
         start_x, start_y = self.calculate_start_position()
         self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
-        player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
-        self.board = Board(self, AbstractDraughts(player1, player2))
-        self.show()
 
-    def __layout(self):
+        GuiMixin.__init__(self)
+
+    def init_components(self):
+        player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
+        draughts_game = AbstractDraughts(player1, player2)
+        self.score_board = ScoreBoard(self, draughts_game)
+        self.board = Board(self, draughts_game)
+
+    def layout(self):
+        self.addDockWidget(Qt.RightDockWidgetArea, self.score_board)
         self.setCentralWidget(self.board)
 
     @staticmethod
