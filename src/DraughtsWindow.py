@@ -1,4 +1,5 @@
-from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QDockWidget, QLabel, QHBoxLayout, QWidget, QListWidget
 
 from control.AbstractDraughts import AbstractDraughts
@@ -20,13 +21,13 @@ class DraughtsWindow(QMainWindow, GuiMixin):
 
         GuiMixin.__init__(self)
 
-    def init_components(self):
+    def _init_components(self):
         player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
         draughts_game = AbstractDraughts(player1, player2)
         self.score_board = ScoreBoard(self, draughts_game)
         self.board = Board(self, draughts_game)
 
-    def layout(self):
+    def _layout(self):
         self.addDockWidget(Qt.RightDockWidgetArea, self.score_board)
         self.setCentralWidget(self.board)
 

@@ -2,15 +2,15 @@
 class GuiMixin:
 
     def __init__(self):
-        self.init_components()
-        self.layout()
-        self.setup_bindings()
+        self._init_components()
+        self._layout()
+        self._setup_bindings()
 
-    def init_components(self):
+    def _init_components(self):
         pass
 
-    def layout(self):
+    def _layout(self):
         pass
 
-    def setup_bindings(self):
+    def _setup_bindings(self):
         pass
