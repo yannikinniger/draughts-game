@@ -1,8 +1,7 @@
-from PyQt5 import QtGui
 from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QDockWidget, QLabel, QHBoxLayout, QWidget, QListWidget
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
-from control.AbstractDraughts import AbstractDraughts
+from control.DraughtsGame import DraughtsGame
 from model.Player import Player
 from view.Board import Board
 from view.GuiMixin import GuiMixin
@@ -23,7 +22,7 @@ class DraughtsWindow(QMainWindow, GuiMixin):
 
     def _init_components(self):
         player1, player2 = Player('Player 1', 1, Qt.red), Player('Player 2', 2, Qt.blue)
-        draughts_game = AbstractDraughts(player1, player2)
+        draughts_game = DraughtsGame(player1, player2)
         self.score_board = ScoreBoard(self, draughts_game)
         self.board = Board(self, draughts_game, QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
 
