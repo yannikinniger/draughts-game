@@ -22,7 +22,7 @@ class DraughtsWindow(QMainWindow, GuiMixin):
         GuiMixin.__init__(self)
 
     def _init_components(self):
-        player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
+        player1, player2 = Player('Player 1', 1, Qt.red), Player('Player 2', 2, Qt.blue)
         draughts_game = AbstractDraughts(player1, player2)
         self.score_board = ScoreBoard(self, draughts_game)
         self.board = Board(self, draughts_game, QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
