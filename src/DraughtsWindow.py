@@ -10,7 +10,7 @@ from view.ScoreBoard import ScoreBoard
 
 
 class DraughtsWindow(QMainWindow, GuiMixin):
-    width = 700
+    width = 800
     height = 700
 
     def __init__(self, parent=None):
@@ -25,7 +25,7 @@ class DraughtsWindow(QMainWindow, GuiMixin):
         player1, player2 = Player('Player 1', 1), Player('Player 2', 2)
         draughts_game = AbstractDraughts(player1, player2)
         self.score_board = ScoreBoard(self, draughts_game)
-        self.board = Board(self, draughts_game)
+        self.board = Board(self, draughts_game, QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
 
     def _layout(self):
         self.addDockWidget(Qt.RightDockWidgetArea, self.score_board)

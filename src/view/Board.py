@@ -8,9 +8,9 @@ from view.drawing import draw_circle, draw_rect
 
 class Board(QWidget):
 
-    def __init__(self, parent, draughts_game):
+    def __init__(self, parent, draughts_game, size):
         super().__init__(parent)
-        self.resize(parent.size())
+        self.resize(size)
         self.draughts_game = draughts_game
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
 
