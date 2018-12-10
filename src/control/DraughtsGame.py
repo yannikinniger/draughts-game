@@ -20,7 +20,7 @@ class DraughtsGame(AbstractDraughts):
             self.move_piece(self.last_click.x(), self.last_click.y(), row, column)
             self.last_click = None
             self.dispatch()
-        else:
+        elif self.board[row][column] > 0:
             self.last_click = QPoint(row, column)
 
     def key_event(self, key_event):
