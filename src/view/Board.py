@@ -60,8 +60,7 @@ class Board(QWidget):
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())
-        if row in range(0, self.draughts_game.board_size) and column in range(0, self.draughts_game.board_size):
-            self.draughts_game.click_event(row, column)
+        self.draughts_game.click_event(row, column)
 
     def get_rectangle_position(self, x, y):
         """
