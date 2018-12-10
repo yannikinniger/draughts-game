@@ -6,7 +6,7 @@ from src.control.AbstractDraughts import AbstractDraughts
 from src.model.Player import Player
 
 
-class DraughtsTest(unittest.TestCase):
+class AbstractDraughtsTest(unittest.TestCase):
 
     def test_should_create_board(self):
         player_1 = Player('Player 1', 1, Qt.red)
