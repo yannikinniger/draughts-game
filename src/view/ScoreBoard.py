@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QDockWidget, QLabel, QWidget, QVBoxLayout, QSplitter, QGridLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtWidgets import QDockWidget, QLabel, QWidget, QGridLayout, QSpacerItem, QSizePolicy
 
 from view.GuiMixin import GuiMixin
 
