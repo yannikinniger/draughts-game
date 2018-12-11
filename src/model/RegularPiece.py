@@ -9,8 +9,8 @@ class RegularPiece(AbstractPiece):
 
     def move(self, location):
         available_locations = self.get_available_moves()
-        #if location in available_locations:
-        self.location = location
+        if location in available_locations:
+            self.location = location
 
     def get_available_moves(self):
         available_moves = []

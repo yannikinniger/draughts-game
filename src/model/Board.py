@@ -16,6 +16,11 @@ class Board(Subject):
         self.selected_piece = None
 
     def __fill_row(self, player, row_index):
+        """
+        Helper method to fill up a row with pieces.
+        :param player: Player which owns the pieces of this row.
+        :param row_index: Row index to fill.
+        """
         start_column = 0 if row_index % 2 == 1 else 1
         for column_index in range(start_column, Board.size, 2):
             self.pieces.append(RegularPiece(player, Location(row_index, column_index)))
@@ -24,6 +29,10 @@ class Board(Subject):
         return any(piece for piece in self.pieces if piece.location == location)
 
     def select(self, location):
+        """
+        Selects a piece to be moved later.
+        :param location: Location of the piece to be selected
+        """
         if self.contains_piece(location):
             self.selected_piece = self.__get_piece(location)
 
