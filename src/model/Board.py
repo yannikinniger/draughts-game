@@ -57,7 +57,7 @@ class Board(Subject):
         if self.selected_piece is not None:
             opponent_piece_location = self.__get_middle_point(self.selected_piece.location, location)
             opponent_piece = self.__get_piece(opponent_piece_location)
-            if opponent_piece.owner != self.selected_piece.owner:
+            if opponent_piece is not None and opponent_piece.owner != self.selected_piece.owner:
                 if not self.contains_piece(location):
                     self.move(location)
                     self.pieces.remove(opponent_piece)
