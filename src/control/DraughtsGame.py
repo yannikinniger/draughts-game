@@ -31,6 +31,7 @@ class DraughtsGame(AbstractDraughts):
             self.board.move(to_location)
         elif row_offset == 2:
             self.__capture_piece(to_location)
+        self.__switch_player()
 
     def __capture_piece(self, to_location):
         successfully_captured = self.board.capture(to_location)
@@ -42,4 +43,8 @@ class DraughtsGame(AbstractDraughts):
         return abs(location_1.row - location_2.row)
 
     def __switch_player(self):
-        pass
+        self.current_player.stop_timer()
+        if self.current_player == self.player_1:
+            self.current_player = self.player_2
+        else:
+            self.current_player = self.player_1
