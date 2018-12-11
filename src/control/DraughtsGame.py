@@ -1,13 +1,11 @@
-from PyQt5.QtCore import QPoint
-
 from control.AbstractDraughts import AbstractDraughts
+from model.Location import Location
 
 
 class DraughtsGame(AbstractDraughts):
 
-    def __init__(self, player_1, player_2):
-        super().__init__(player_1, player_2)
-        self.last_click = None
+    def __init__(self, player_1, player_2, board):
+        super().__init__(player_1, player_2, board)
 
     def pause(self):
         pass
@@ -16,17 +14,11 @@ class DraughtsGame(AbstractDraughts):
         pass
 
     def click_event(self, row, column):
-        if self.last_click is not None:
-            self.move_piece(self.last_click.x(), self.last_click.y(), row, column)
-            self.last_click = None
-            self.dispatch()
-        elif self.board[row][column] > 0:
-            self.last_click = QPoint(row, column)
+        click_location = Location(row, column)
+        if self.board.piece_selected():
+            self.board.move(click_location)
+        else:
+            self.board.select(click_location)
 
     def key_event(self, key_event):
         pass
-
-    def move_piece(self, from_row, from_column, to_row, to_column):
-        if self.board[from_row][from_column] > 0:
-            self.board[from_row][from_column] = 0
-            self.board[to_row][to_column] = self.current_player.uid

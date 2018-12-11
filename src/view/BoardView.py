@@ -2,17 +2,17 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
 
-from control.Observer import Subscriber
+from control.Observer import Observer
 from view.drawing import draw_circle, draw_rect
 
 
-class Board(QWidget, Subscriber):
+class BoardView(QWidget, Observer):
 
-    def __init__(self, parent, draughts_game, size):
+    def __init__(self, parent, draughts_game, board, size):
         super().__init__(parent)
-        draughts_game.register(self)
         self.resize(size)
         self.draughts_game = draughts_game
+        self.board = board
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
 
     def calculate_rectangle_size(self):
@@ -21,8 +21,8 @@ class Board(QWidget, Subscriber):
         :return: width and height of the rectangles
         """
         size = self.size()
-        rect_width = size.width() / self.draughts_game.board_size
-        rect_height = size.height() / self.draughts_game.board_size
+        rect_width = size.width() / self.board.size
+        rect_height = size.height() / self.board.size
         return int(rect_width), int(rect_height)
 
     def update(self):
@@ -39,9 +39,9 @@ class Board(QWidget, Subscriber):
         Draws the checkered game board as a background
         :param painter: QPainter to draw the rectangles
         """
-        for row in range(0, self.draughts_game.board_size):
+        for row in range(0, self.board.size):
             start_column = 0 if row % 2 == 1 else 1
-            for column in range(start_column, self.draughts_game.board_size, 2):
+            for column in range(start_column, self.board.size, 2):
                 rect_x = self.rect_width * row
                 rect_y = self.rect_height * column
                 draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter)
@@ -51,17 +51,10 @@ class Board(QWidget, Subscriber):
         Renders all the pieces on the board.
         :param painter: QPainter to draw the pieces. The brush will be changed in the method.
         """
-        for row_index, row_array in enumerate(self.draughts_game.board):
-            if row_array != [0] * 8:
-                for column_index, column_value in enumerate(row_array):
-                    if column_value != 0:
-                        circle_x = self.rect_width * column_index
-                        circle_y = self.rect_height * row_index
-                        if column_value == -1:
-                            color = self.draughts_game.current_player.color.lighter()
-                        else:
-                            color = self.draughts_game.get_player_color(column_value)
-                        draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, color)
+        for piece in self.board.pieces:
+            circle_x = self.rect_width * piece.location.column
+            circle_y = self.rect_height * piece.location.row
+            draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, piece.owner.color)
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())

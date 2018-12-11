@@ -1,34 +1,13 @@
 import abc
 
-from control.Observer import Publisher
 
+class AbstractDraughts:
 
-class AbstractDraughts(Publisher):
-
-    def __init__(self, player_1, player_2):
-        super().__init__()
+    def __init__(self, player_1, player_2, board):
         self.player_1 = player_1
         self.player_2 = player_2
+        self.board = board
         self.current_player = player_1
-        self.board_size = 8
-        self.board = self.init_board()
-
-    def init_board(self):
-        def get_player_id(current_row):
-            if current_row in range(0, 3):
-                return self.player_1.uid
-            elif current_row in range(self.board_size - 3, self.board_size):
-                return self.player_2.uid
-            else:
-                return 0
-
-        board = []
-        for row in range(0, self.board_size):
-            board.append([0] * self.board_size)
-            start_column = 0 if row % 2 == 1 else 1
-            for column in range(start_column, self.board_size, 2):
-                board[row][column] = get_player_id(row)
-        return board
 
     def get_player_color(self, player_uid):
         if self.player_1.uid == player_uid:

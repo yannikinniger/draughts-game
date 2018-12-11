@@ -1,23 +1,28 @@
 import abc
 
 
-class Subscriber:
+class Observer:
+
+    def __init__(self):
+        self._subject = None
 
     @abc.abstractmethod
     def update(self):
         pass
 
 
-class Publisher:
+class Subject:
     def __init__(self):
-        self.subscribers = set()
+        self._observers = []
 
-    def register(self, who):
-        self.subscribers.add(who)
+    def attach(self, observer):
+        observer._subject = self
+        self._observers.append(observer)
 
-    def unregister(self, who):
-        self.subscribers.discard(who)
+    def detach(self, observer):
+        observer._subject = None
+        self._observers.remove(observer)
 
-    def dispatch(self):
-        for subscriber in self.subscribers:
-            subscriber.update()
+    def _notify(self):
+        for observer in self._observers:
+            observer.update()

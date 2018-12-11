@@ -2,13 +2,13 @@ from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
 from control.DraughtsGame import DraughtsGame
+from model.Board import Board
 from model.Player import Player
-from view.Board import Board
-from view.GuiMixin import GuiMixin
+from view.BoardView import BoardView
 from view.ScoreBoard import ScoreBoard
 
 
-class DraughtsWindow(QMainWindow, GuiMixin):
+class DraughtsWindow(QMainWindow):
     width = 800
     height = 700
 
@@ -18,17 +18,17 @@ class DraughtsWindow(QMainWindow, GuiMixin):
         start_x, start_y = self.calculate_start_position()
         self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
 
-        GuiMixin.__init__(self)
-
-    def _init_components(self):
         player1, player2 = Player('Player 1', 1, Qt.red), Player('Player 2', 2, Qt.blue)
-        draughts_game = DraughtsGame(player1, player2)
+        self.board = Board(player1, player2)
+        draughts_game = DraughtsGame(player1, player2, self.board)
         self.score_board = ScoreBoard(self, draughts_game)
-        self.board = Board(self, draughts_game, QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
+        self.board_view = BoardView(self, draughts_game, self.board,
+                                    QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
+        self.board.attach(self.board_view)
 
-    def _layout(self):
         self.addDockWidget(Qt.RightDockWidgetArea, self.score_board)
-        self.setCentralWidget(self.board)
+        self.setCentralWidget(self.board_view)
+        self.show()
 
     @staticmethod
     def calculate_start_position():
