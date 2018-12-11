@@ -13,18 +13,19 @@ class DraughtsWindow(QMainWindow):
     height = 700
 
     def __init__(self, parent=None):
-        QMainWindow.__init__(self, parent)
+        super().__init__(parent)
         self.setWindowTitle('Draughts')
         start_x, start_y = self.calculate_start_position()
         self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
 
         player1, player2 = Player('Player 1', 1, Qt.red), Player('Player 2', 2, Qt.blue)
-        self.board = Board(player1, player2)
-        draughts_game = DraughtsGame(player1, player2, self.board)
+        board = Board(player1, player2)
+        draughts_game = DraughtsGame(player1, player2, board)
+
         self.score_board = ScoreBoard(self, draughts_game)
-        self.board_view = BoardView(self, draughts_game, self.board,
+        self.board_view = BoardView(self, draughts_game, board.size,
                                     QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
-        self.board.attach(self.board_view)
+        board.attach(self.board_view)
 
         self.addDockWidget(Qt.RightDockWidgetArea, self.score_board)
         self.setCentralWidget(self.board_view)

@@ -8,11 +8,11 @@ from view.drawing import draw_circle, draw_rect
 
 class BoardView(QWidget, Observer):
 
-    def __init__(self, parent, draughts_game, board, size):
+    def __init__(self, parent, draughts_game, board_size, size):
         super().__init__(parent)
         self.resize(size)
         self.draughts_game = draughts_game
-        self.board = board
+        self.board_size = board_size
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
 
     def calculate_rectangle_size(self):
@@ -21,8 +21,8 @@ class BoardView(QWidget, Observer):
         :return: width and height of the rectangles
         """
         size = self.size()
-        rect_width = size.width() / self.board.size
-        rect_height = size.height() / self.board.size
+        rect_width = size.width() / self.board_size
+        rect_height = size.height() / self.board_size
         return int(rect_width), int(rect_height)
 
     def update(self):
@@ -39,9 +39,9 @@ class BoardView(QWidget, Observer):
         Draws the checkered game board as a background
         :param painter: QPainter to draw the rectangles
         """
-        for row in range(0, self.board.size):
+        for row in range(0, self.board_size):
             start_column = 0 if row % 2 == 1 else 1
-            for column in range(start_column, self.board.size, 2):
+            for column in range(start_column, self.board_size, 2):
                 rect_x = self.rect_width * row
                 rect_y = self.rect_height * column
                 draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter)
@@ -51,7 +51,7 @@ class BoardView(QWidget, Observer):
         Renders all the pieces on the board.
         :param painter: QPainter to draw the pieces. The brush will be changed in the method.
         """
-        for piece in self.board.pieces:
+        for piece in self._subject.pieces:
             circle_x = self.rect_width * piece.location.column
             circle_y = self.rect_height * piece.location.row
             draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, piece.owner.color)
