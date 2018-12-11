@@ -16,16 +16,26 @@ class DraughtsGame(AbstractDraughts):
     def click_event(self, row, column):
         click_location = Location(row, column)
         if self.board.selected_piece is not None:
-            selected_piece_location = self.board.selected_piece.location
-            row_offset = abs(selected_piece_location.row - click_location.row)
-            if row_offset == 2:
-                successfully_captured = self.board.capture(click_location)
-                if successfully_captured:
-                    self.current_player.add_points()
-            else:
-                self.board.move(click_location)
+            self.__move_piece(click_location)
         else:
             self.board.select(click_location)
 
     def key_event(self, key_event):
         pass
+
+    def __move_piece(self, to_location):
+        selected_piece_location = self.board.selected_piece.location
+        row_offset = DraughtsGame.__calculate_row_offset(selected_piece_location, to_location)
+        if row_offset == 1:
+            self.board.move(to_location)
+        elif row_offset == 2:
+            self.__capture_piece(to_location)
+
+    def __capture_piece(self, to_location):
+        successfully_captured = self.board.capture(to_location)
+        if successfully_captured:
+            self.current_player.add_points()
+
+    @staticmethod
+    def __calculate_row_offset(location_1, location_2):
+        return abs(location_1.row - location_2.row)
