@@ -18,7 +18,8 @@ class DraughtsGame(AbstractDraughts):
         if self.board.selected_piece is not None:
             self.__move_piece(click_location)
         else:
-            self.board.select(click_location)
+            if self.current_player == self.board.get_owner(click_location):
+                self.board.select(click_location)
 
     def key_event(self, key_event):
         pass
@@ -39,3 +40,6 @@ class DraughtsGame(AbstractDraughts):
     @staticmethod
     def __calculate_row_offset(location_1, location_2):
         return abs(location_1.row - location_2.row)
+
+    def __switch_player(self):
+        pass

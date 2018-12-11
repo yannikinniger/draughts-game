@@ -65,7 +65,10 @@ class Board(Subject):
         return False
 
     def __get_piece(self, location):
-        return next(piece for piece in self.pieces if piece.location == location)
+        try:
+            return next(piece for piece in self.pieces if piece.location == location)
+        except StopIteration:
+            return None
 
     @staticmethod
     def __get_middle_point(l1, l2):
@@ -76,3 +79,15 @@ class Board(Subject):
         row = (l1.row + l2.row) / 2
         column = (l1.column + l2.column) / 2
         return Location(row, column)
+
+    def get_owner(self, piece_location):
+        """
+        Returns the owner of the piece at the given location.
+        :param piece_location: Location of the piece
+        :return: Player which owns the piece or None if there is no piece at this location
+        """
+        try:
+            return self.__get_piece(piece_location).owner
+        except AttributeError:
+            return None
+
