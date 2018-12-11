@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
 from control.DraughtsGame import DraughtsGame
 from model.Board import Board
+from model.Directions import Directions
 from model.Player import Player
 from view.BoardView import BoardView
 from view.ScoreBoard import ScoreBoard
@@ -18,7 +19,7 @@ class DraughtsWindow(QMainWindow):
         start_x, start_y = self.calculate_start_position()
         self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
 
-        player1, player2 = Player('Player 1', 1, Qt.red), Player('Player 2', 2, Qt.blue)
+        player1, player2 = Player('Player 1', 1, Directions.DOWN, Qt.red), Player('Player 2', 2, Directions.UP, Qt.blue)
         board = Board(player1, player2)
         draughts_game = DraughtsGame(player1, player2, board)
 

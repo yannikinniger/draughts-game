@@ -23,7 +23,7 @@ class Board(Subject):
         """
         start_column = 0 if row_index % 2 == 1 else 1
         for column_index in range(start_column, Board.size, 2):
-            self.pieces.append(RegularPiece(player, Location(row_index, column_index)))
+            self.pieces.append(RegularPiece(player, Location(row_index, column_index), player.direction))
 
     def contains_piece(self, location):
         return any(piece for piece in self.pieces if piece.location == location)

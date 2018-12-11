@@ -7,10 +7,11 @@ from control.Observer import Subject
 
 class Player(Subject):
 
-    def __init__(self, name, uid, color):
+    def __init__(self, name, uid, direction, color):
         super().__init__()
         self.name = name
         self.uid = uid
+        self.direction = direction
         if not isinstance(color, QColor):
             self.color = QColor(color)
         else:
