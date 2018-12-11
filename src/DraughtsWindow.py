@@ -23,6 +23,9 @@ class DraughtsWindow(QMainWindow):
         draughts_game = DraughtsGame(player1, player2, board)
 
         self.score_board = ScoreBoard(self, draughts_game)
+        player1.attach(self.score_board)
+        player2.attach(self.score_board)
+
         self.board_view = BoardView(self, draughts_game, board.size,
                                     QSize(DraughtsWindow.width - 100, DraughtsWindow.height))
         board.attach(self.board_view)

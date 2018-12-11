@@ -2,10 +2,13 @@ import time
 
 from PyQt5.QtGui import QColor
 
+from control.Observer import Subject
 
-class Player:
+
+class Player(Subject):
 
     def __init__(self, name, uid, color):
+        super().__init__()
         self.name = name
         self.uid = uid
         if not isinstance(color, QColor):
@@ -39,5 +42,6 @@ class Player:
         """
         if isinstance(points_to_add, int) and points_to_add > 0:
             self.score += points_to_add
+            self._notify()
         else:
             raise ValueError('Points must be positive and of type integer')

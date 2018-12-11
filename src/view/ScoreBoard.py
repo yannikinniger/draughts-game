@@ -1,10 +1,11 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDockWidget, QLabel, QWidget, QGridLayout, QSpacerItem, QSizePolicy
 
+from control.Observer import Observer
 from view.GuiMixin import GuiMixin
 
 
-class ScoreBoard(QDockWidget, GuiMixin):
+class ScoreBoard(QDockWidget, GuiMixin, Observer):
 
     def __init__(self, parent, draughts_game):
         self.draughts_game = draughts_game
@@ -34,3 +35,7 @@ class ScoreBoard(QDockWidget, GuiMixin):
         dock_widget.setLayout(layout)
         self.setWidget(dock_widget)
         self.setMinimumWidth(100)
+
+    def update(self):
+        self.player_1_score.setText("Score: {}".format(self.draughts_game.player_1.score))
+        self.player_2_score.setText("Score: {}".format(self.draughts_game.player_2.score))
