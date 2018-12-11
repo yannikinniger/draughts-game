@@ -35,6 +35,7 @@ class Board(Subject):
         """
         if self.contains_piece(location):
             self.selected_piece = self.__get_piece(location)
+            self._notify()
 
     def move(self, to_location):
         """

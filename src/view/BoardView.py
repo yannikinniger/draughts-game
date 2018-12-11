@@ -1,5 +1,6 @@
 from PyQt5 import QtGui
-from PyQt5.QtGui import QPainter
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget
 
 from control.Observer import Observer
@@ -14,6 +15,7 @@ class BoardView(QWidget, Observer):
         self.draughts_game = draughts_game
         self.board_size = board_size
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
+        self.selected_piece = None
 
     def calculate_rectangle_size(self):
         """
@@ -25,12 +27,14 @@ class BoardView(QWidget, Observer):
         rect_height = size.height() / self.board_size
         return int(rect_width), int(rect_height)
 
-    def update(self):
+    def update_(self):
         self.repaint()
 
     def paintEvent(self, event):
         painter = QPainter(self)
         self.draw_background(painter)
+        if self._subject.selected_piece is not None:
+            self.draw_selected_piece(painter)
         self.render_pieces(painter)
         painter.end()
 
@@ -55,6 +59,12 @@ class BoardView(QWidget, Observer):
             circle_x = self.rect_width * piece.location.column
             circle_y = self.rect_height * piece.location.row
             draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, piece.owner.color)
+
+    def draw_selected_piece(self, painter):
+        selected_piece = self._subject.selected_piece
+        circle_x = self.rect_width * selected_piece.location.column
+        circle_y = self.rect_height * selected_piece.location.row
+        draw_rect(self.rect_width, self.rect_height, circle_x, circle_y, painter, QColor(Qt.yellow))
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())

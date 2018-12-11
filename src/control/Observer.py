@@ -7,7 +7,7 @@ class Observer:
         self._subject = None
 
     @abc.abstractmethod
-    def update(self):
+    def update_(self):
         pass
 
 
@@ -25,4 +25,4 @@ class Subject:
 
     def _notify(self):
         for observer in self._observers:
-            observer.update()
+            observer.update_()

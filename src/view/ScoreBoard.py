@@ -36,6 +36,6 @@ class ScoreBoard(QDockWidget, GuiMixin, Observer):
         self.setWidget(dock_widget)
         self.setMinimumWidth(100)
 
-    def update(self):
+    def update_(self):
         self.player_1_score.setText("Score: {}".format(self.draughts_game.player_1.score))
         self.player_2_score.setText("Score: {}".format(self.draughts_game.player_2.score))
