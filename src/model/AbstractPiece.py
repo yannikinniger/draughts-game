@@ -16,7 +16,7 @@ class AbstractPiece:
         pass
 
     @abc.abstractmethod
-    def get_available_moves(self):
+    def __is_move_permitted(self, location):
         """
         Returns an array of points consisting the available positions to move to.
         """

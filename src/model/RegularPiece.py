@@ -1,6 +1,5 @@
 from model.AbstractPiece import AbstractPiece
 from model.Directions import Directions
-from model.Location import Location
 
 
 class RegularPiece(AbstractPiece):
@@ -10,15 +9,14 @@ class RegularPiece(AbstractPiece):
         self.direction = direction
 
     def move(self, location):
-        available_locations = self.get_available_moves()
-        if location in available_locations:
+        if self.__is_move_permitted(location):
             self.location = location
 
-    def get_available_moves(self):
-        available_moves = []
-        row_movement = 1 if self.direction == Directions.DOWN else -1
-        if self.location.column - 1 in range(0, 8):
-            available_moves.append(Location(self.location.row + row_movement, self.location.column - 1))
-        if self.location.column + 1 in range(0, 8):
-            available_moves.append(Location(self.location.row + row_movement, self.location.column + 1))
-        return available_moves
+    def __is_move_permitted(self, location):
+        row_offset = self.location.row - location.row
+        if self.direction == Directions.DOWN and row_offset > 0:
+            return False
+        elif self.direction == Directions.UP and row_offset < 0:
+            return False
+        column_offset = abs(self.location.column - location.column)
+        return abs(row_offset) == column_offset
