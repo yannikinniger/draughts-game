@@ -15,8 +15,15 @@ class DraughtsGame(AbstractDraughts):
 
     def click_event(self, row, column):
         click_location = Location(row, column)
-        if self.board.piece_selected():
-            self.board.move(click_location)
+        if self.board.selected_piece is not None:
+            selected_piece_location = self.board.selected_piece.location
+            row_offset = abs(selected_piece_location.row - click_location.row)
+            if row_offset == 2:
+                successfully_captured = self.board.capture(click_location)
+                if successfully_captured:
+                    self.current_player.add_points()
+            else:
+                self.board.move(click_location)
         else:
             self.board.select(click_location)
 

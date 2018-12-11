@@ -13,7 +13,7 @@ class Board(Subject):
             self.__fill_row(player_1, row_index)
         for row_index in range(Board.size - 3, Board.size):
             self.__fill_row(player_2, row_index)
-        self.__selected_piece = None
+        self.selected_piece = None
 
     def __fill_row(self, player, row_index):
         start_column = 0 if row_index % 2 == 1 else 1
@@ -25,19 +25,16 @@ class Board(Subject):
 
     def select(self, location):
         if self.contains_piece(location):
-            self.__selected_piece = self.__get_piece(location)
-
-    def piece_selected(self):
-        return self.__selected_piece is not None
+            self.selected_piece = self.__get_piece(location)
 
     def move(self, to_location):
         """
         Moves the selected piece to a new location. Precondition select() must be called before calling this method.
         :param to_location: New location of the piece
         """
-        if self.__selected_piece is not None and not self.contains_piece(to_location):
-            self.__selected_piece.move(to_location)
-            self.__selected_piece = None
+        if self.selected_piece is not None and not self.contains_piece(to_location):
+            self.selected_piece.move(to_location)
+            self.selected_piece = None
             self._notify()
 
     def capture(self, location):
@@ -47,12 +44,12 @@ class Board(Subject):
         :param location: Location of the piece to overtake.
         :return: Boolean if the overtake was successful
         """
-        if self.__selected_piece is not None and self.contains_piece(location):
-            opponent_piece = self.__get_piece(location)
-            if opponent_piece.owner != self.__selected_piece.owner:
-                new_location = self.__multiply_offset(self.__selected_piece.location, opponent_piece.location, 2)
-                if not self.contains_piece(new_location):
-                    self.move(new_location)
+        if self.selected_piece is not None:
+            opponent_piece_location = self.__get_middle_point(self.selected_piece.location, location)
+            opponent_piece = self.__get_piece(opponent_piece_location)
+            if opponent_piece.owner != self.selected_piece.owner:
+                if not self.contains_piece(location):
+                    self.move(location)
                     self.pieces.remove(opponent_piece)
                     self._notify()
                     return True
@@ -62,11 +59,11 @@ class Board(Subject):
         return next(piece for piece in self.pieces if piece.location == location)
 
     @staticmethod
-    def __multiply_offset(l1, l2, factor):
+    def __get_middle_point(l1, l2):
         """
-        Calculates a new location by multiplying the offset from two locations by a factor.
+        Calculates a new location which is in the middle of two points.
         :return: New location
         """
-        row = l2.row - l1.row
-        column = l2.column - l1.column
-        return Location(l1.row + (row * factor), l1.column + (column * factor))
+        row = (l1.row + l2.row) / 2
+        column = (l1.column + l2.column) / 2
+        return Location(row, column)
