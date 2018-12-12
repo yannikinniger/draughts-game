@@ -43,12 +43,13 @@ class BoardView(QWidget, Observer):
         Draws the checkered game board as a background
         :param painter: QPainter to draw the rectangles
         """
+        draw_rect(self.width(), self.height(), 0, 0, painter, QColor(220, 180, 132))
         for row in range(0, self.board_size):
             start_column = 0 if row % 2 == 1 else 1
             for column in range(start_column, self.board_size, 2):
                 rect_x = self.rect_width * row
                 rect_y = self.rect_height * column
-                draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter)
+                draw_rect(self.rect_width, self.rect_height, rect_x, rect_y, painter, QColor(102, 51, 0))
 
     def render_pieces(self, painter):
         """
@@ -64,7 +65,7 @@ class BoardView(QWidget, Observer):
         selected_piece = self._subject.selected_piece
         circle_x = self.rect_width * selected_piece.location.column
         circle_y = self.rect_height * selected_piece.location.row
-        draw_rect(self.rect_width, self.rect_height, circle_x, circle_y, painter, QColor(Qt.yellow))
+        draw_rect(self.rect_width, self.rect_height, circle_x, circle_y, painter, QColor(255, 215, 0))
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         row, column = self.get_rectangle_position(event.x(), event.y())

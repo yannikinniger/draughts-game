@@ -1,4 +1,5 @@
 from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget
 
 from control.DraughtsGame import DraughtsGame
@@ -19,7 +20,7 @@ class DraughtsWindow(QMainWindow):
         start_x, start_y = self.calculate_start_position()
         self.setGeometry(start_x, start_y, DraughtsWindow.width, DraughtsWindow.height)
 
-        player1, player2 = Player('Player 1', 1, Directions.DOWN, Qt.red), Player('Player 2', 2, Directions.UP, Qt.blue)
+        player1, player2 = Player('Player 1', 1, Directions.DOWN, Qt.black), Player('Player 2', 2, Directions.UP, Qt.white)
         board = Board(player1, player2)
         draughts_game = DraughtsGame(player1, player2, board)
 
