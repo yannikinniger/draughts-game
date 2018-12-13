@@ -8,11 +8,7 @@ class RegularPiece(AbstractPiece):
         super().__init__(owner, location)
         self.direction = direction
 
-    def move(self, location):
-        if self.__is_move_permitted(location):
-            self.location = location
-
-    def __is_move_permitted(self, location):
+    def _is_move_permitted(self, location):
         row_offset = self.location.row - location.row
         if self.direction == Directions.DOWN and row_offset > 0:
             return False
