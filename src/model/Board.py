@@ -1,4 +1,5 @@
 from control.Observer import Subject
+from helper.calculations import get_middle_point
 from model.Location import Location
 from model.pieces.RegularPiece import RegularPiece
 
@@ -10,12 +11,12 @@ class Board(Subject):
         super().__init__()
         self.pieces = []
         for row_index in range(0, 3):
-            self.__fill_row(player_1, row_index)
+            self._fill_row(player_1, row_index)
         for row_index in range(Board.size - 3, Board.size):
-            self.__fill_row(player_2, row_index)
+            self._fill_row(player_2, row_index)
         self.selected_piece = None
 
-    def __fill_row(self, player, row_index):
+    def _fill_row(self, player, row_index):
         """
         Helper method to fill up a row with pieces.
         :param player: Player which owns the pieces of this row.
@@ -34,7 +35,7 @@ class Board(Subject):
         :param location: Location of the piece to be selected
         """
         if self.contains_piece(location):
-            self.selected_piece = self.__get_piece(location)
+            self.selected_piece = self._get_piece(location)
             self._notify()
 
     def move(self, to_location):
@@ -55,8 +56,8 @@ class Board(Subject):
         :return: Boolean if the overtake was successful
         """
         if self.selected_piece is not None:
-            opponent_piece_location = self.__get_middle_point(self.selected_piece.location, location)
-            opponent_piece = self.__get_piece(opponent_piece_location)
+            opponent_piece_location = get_middle_point(self.selected_piece.location, location)
+            opponent_piece = self._get_piece(opponent_piece_location)
             if opponent_piece is not None and opponent_piece.owner != self.selected_piece.owner:
                 if not self.contains_piece(location):
                     self.move(location)
@@ -65,21 +66,11 @@ class Board(Subject):
                     return True
         return False
 
-    def __get_piece(self, location):
+    def _get_piece(self, location):
         try:
             return next(piece for piece in self.pieces if piece.location == location)
         except StopIteration:
             return None
-
-    @staticmethod
-    def __get_middle_point(l1, l2):
-        """
-        Calculates a new location which is in the middle of two points.
-        :return: New location
-        """
-        row = (l1.row + l2.row) / 2
-        column = (l1.column + l2.column) / 2
-        return Location(row, column)
 
     def get_owner(self, piece_location):
         """
@@ -88,7 +79,7 @@ class Board(Subject):
         :return: Player which owns the piece or None if there is no piece at this location
         """
         try:
-            return self.__get_piece(piece_location).owner
+            return self._get_piece(piece_location).owner
         except AttributeError:
             return None
 
