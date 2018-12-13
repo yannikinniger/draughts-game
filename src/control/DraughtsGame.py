@@ -1,4 +1,5 @@
 from control.AbstractDraughts import AbstractDraughts
+from helper.calculations import calculate_offset
 from model.Location import Location
 
 
@@ -26,7 +27,7 @@ class DraughtsGame(AbstractDraughts):
 
     def __move_piece(self, to_location):
         selected_piece_location = self.board.selected_piece.location
-        row_offset = DraughtsGame.__calculate_row_offset(selected_piece_location, to_location)
+        row_offset = calculate_offset(selected_piece_location, to_location).row
         if row_offset == 1:
             self.board.move(to_location)
         elif row_offset == 2:
@@ -37,10 +38,6 @@ class DraughtsGame(AbstractDraughts):
         successfully_captured = self.board.capture(to_location)
         if successfully_captured:
             self.current_player.add_points()
-
-    @staticmethod
-    def __calculate_row_offset(location_1, location_2):
-        return abs(location_1.row - location_2.row)
 
     def __switch_player(self):
         self.current_player.stop_timer()
