@@ -1,6 +1,6 @@
 from control.Observer import Subject
 from model.Location import Location
-from model.RegularPiece import RegularPiece
+from model.pieces.RegularPiece import RegularPiece
 
 
 class Board(Subject):

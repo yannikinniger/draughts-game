@@ -1,4 +1,4 @@
-from model.AbstractPiece import AbstractPiece
+from model.pieces.AbstractPiece import AbstractPiece
 from model.Directions import Directions
 
 
