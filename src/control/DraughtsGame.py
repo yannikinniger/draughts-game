@@ -17,7 +17,10 @@ class DraughtsGame(AbstractDraughts):
     def click_event(self, row, column):
         click_location = Location(row, column)
         if self.board.selected_piece is not None:
-            self.__move_piece(click_location)
+            if self.board.contains_piece(click_location) and self.current_player == self.board.get_owner(click_location):
+                self.board.select(click_location)
+            else:
+                self.__move_piece(click_location)
         else:
             if self.current_player == self.board.get_owner(click_location):
                 self.board.select(click_location)
