@@ -2,7 +2,7 @@ import time
 
 from PyQt5.QtGui import QColor
 
-from control.Observer import Subject
+from helper.Observer import Subject
 
 
 class Player(Subject):

@@ -2,7 +2,7 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget
 
-from control.Observer import Observer
+from helper.Observer import Observer
 from view.drawing import draw_circle, draw_rect
 
 

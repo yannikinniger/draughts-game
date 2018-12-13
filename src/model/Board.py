@@ -1,4 +1,4 @@
-from control.Observer import Subject
+from helper.Observer import Subject
 from helper.calculations import get_middle_point
 from model.Location import Location
 from model.pieces.RegularPiece import RegularPiece

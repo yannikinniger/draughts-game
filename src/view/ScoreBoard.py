@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDockWidget, QLabel, QWidget, QGridLayout, QSpacerItem, QSizePolicy
 
-from control.Observer import Observer
+from helper.Observer import Observer
 from view.GuiMixin import GuiMixin
 
 
