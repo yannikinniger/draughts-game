@@ -18,13 +18,19 @@ class DraughtsGame(AbstractDraughts):
     def click_event(self, row, column):
         click_location = Location(row, column)
         if self.board.selected_piece is not None:
-            if self.board.contains_piece(click_location) and self.current_player == self.board.get_owner(click_location):
+            if self.board.contains_piece(click_location) and self.current_player == self.board.get_owner(
+                    click_location):
                 self.board.select(click_location)
             else:
-                self._move_piece(click_location)
+                try:
+                    self._move_piece(click_location)
+                except InvalidMoveException:
+                    self.board.deselect()
         else:
             if self.current_player == self.board.get_owner(click_location):
                 self.board.select(click_location)
+            else:
+                self.board.deselect()
 
     def key_event(self, key_event):
         pass
@@ -32,15 +38,12 @@ class DraughtsGame(AbstractDraughts):
     def _move_piece(self, to_location):
         selected_piece_location = self.board.selected_piece.location
         row_offset = calculate_offset(selected_piece_location, to_location).row
-        try:
-            if row_offset == 1:
-                self.board.move(to_location)
-                self._switch_player()
-            elif row_offset == 2:
-                self._capture_piece(to_location)
-                self._switch_player()
-        except InvalidMoveException:
-            pass
+        if row_offset == 1:
+            self.board.move(to_location)
+            self._switch_player()
+        elif row_offset == 2:
+            self._capture_piece(to_location)
+            self._switch_player()
 
     def _capture_piece(self, to_location):
         self.board.capture(to_location)

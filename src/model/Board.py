@@ -39,6 +39,13 @@ class Board(Subject):
             self.selected_piece = self._get_piece(location)
             self._notify()
 
+    def deselect(self):
+        """
+        Deselects the currently selected piece.
+        """
+        self.selected_piece = None
+        self._notify()
+
     def move(self, to_location):
         """
         Moves the selected piece to a new location. Precondition select() must be called before calling this method.
