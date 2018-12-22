@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QDockWidget, QLabel, QWidget, QGridLayout, QSpacerIt
 from qtpy import QtGui
 
 from helper.Observer import Observer
+from model.Player import Player
 from view.GuiMixin import GuiMixin
 
 
@@ -38,6 +39,9 @@ class ScoreBoard(QDockWidget, GuiMixin, Observer):
         self.setWidget(dock_widget)
         self.setMinimumWidth(100)
 
-    def update_(self):
-        self.player_1_score.setText("Score: {}".format(self.draughts_game.player_1.score))
-        self.player_2_score.setText("Score: {}".format(self.draughts_game.player_2.score))
+    def update_(self, subject):
+        if isinstance(subject, Player):
+            if subject.uid == 1:
+                self.player_1_score.setText("Score: {}".format(self.draughts_game.player_1.score))
+            elif subject.uid == 2:
+                self.player_2_score.setText("Score: {}".format(self.draughts_game.player_2.score))

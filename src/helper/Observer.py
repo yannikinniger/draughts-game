@@ -3,11 +3,8 @@ import abc
 
 class Observer:
 
-    def __init__(self):
-        self._subject = None
-
     @abc.abstractmethod
-    def update_(self):
+    def update_(self, subject):
         pass
 
 
@@ -16,7 +13,7 @@ class Subject:
         self._observers = []
 
     def attach(self, observer):
-        observer._subject = self
+        observer.subject = self
         self._observers.append(observer)
 
     def detach(self, observer):
@@ -25,4 +22,4 @@ class Subject:
 
     def _notify(self):
         for observer in self._observers:
-            observer.update_()
+            observer.update_(self)

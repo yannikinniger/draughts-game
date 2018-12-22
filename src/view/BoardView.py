@@ -26,13 +26,14 @@ class BoardView(QWidget, Observer):
         rect_height = size.height() / self.board_size
         return int(rect_width), int(rect_height)
 
-    def update_(self):
+    def update_(self, subject):
+        self.subject = subject
         self.repaint()
 
     def paintEvent(self, event):
         painter = QPainter(self)
         self.draw_background(painter)
-        if self._subject.selected_piece is not None:
+        if self.subject.selected_piece is not None:
             self.draw_selected_piece(painter)
         self.render_pieces(painter)
         painter.end()
@@ -55,13 +56,13 @@ class BoardView(QWidget, Observer):
         Renders all the pieces on the board.
         :param painter: QPainter to draw the pieces. The brush will be changed in the method.
         """
-        for piece in self._subject.pieces:
+        for piece in self.subject.pieces:
             circle_x = self.rect_width * piece.location.column
             circle_y = self.rect_height * piece.location.row
             draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, piece.owner.color)
 
     def draw_selected_piece(self, painter):
-        selected_piece = self._subject.selected_piece
+        selected_piece = self.subject.selected_piece
         circle_x = self.rect_width * selected_piece.location.column
         circle_y = self.rect_height * selected_piece.location.row
         draw_rect(self.rect_width, self.rect_height, circle_x, circle_y, painter, QColor(255, 215, 0))
