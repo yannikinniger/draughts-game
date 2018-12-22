@@ -1,13 +1,15 @@
 from control.AbstractDraughts import AbstractDraughts
+from helper.Observer import Subject
 from helper.calculations import calculate_offset
 from model.Location import Location
 from model.pieces.InvalidMoveException import InvalidMoveException
 
 
-class DraughtsGame(AbstractDraughts):
+class DraughtsGame(AbstractDraughts, Subject):
 
     def __init__(self, player_1, player_2, board):
-        super().__init__(player_1, player_2, board)
+        AbstractDraughts.__init__(self, player_1, player_2, board)
+        Subject.__init__(self)
 
     def pause(self):
         pass
@@ -55,3 +57,4 @@ class DraughtsGame(AbstractDraughts):
             self.current_player = self.player_2
         else:
             self.current_player = self.player_1
+        self._notify()
