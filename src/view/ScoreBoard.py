@@ -17,10 +17,10 @@ class ScoreBoard(QDockWidget, GuiMixin, Observer):
         self._indicate_current_player(draughts_game.current_player)
 
     def _init_components(self):
-        self.player_1_label = ScoreBoard.get_label(self.draughts_game.player_1.name, 16)
-        self.player_1_score = ScoreBoard.get_label("Score: {}".format(self.draughts_game.player_1.score), 14)
-        self.player_2_label = ScoreBoard.get_label(self.draughts_game.player_2.name, 16)
-        self.player_2_score = ScoreBoard.get_label("Score: {}".format(self.draughts_game.player_2.score), 14)
+        self.player_1_label = ScoreBoard.get_label(self.draughts_game.player_1.name, 20)
+        self.player_1_score = ScoreBoard.get_label("Score: {}".format(self.draughts_game.player_1.score), 18)
+        self.player_2_label = ScoreBoard.get_label(self.draughts_game.player_2.name, 20)
+        self.player_2_score = ScoreBoard.get_label("Score: {}".format(self.draughts_game.player_2.score), 18)
 
     @staticmethod
     def get_label(content, font_size):
