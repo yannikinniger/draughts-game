@@ -15,4 +15,5 @@ class RegularPiece(AbstractPiece):
         elif self.direction == Directions.UP and row_offset < 0:
             return False
         column_offset = abs(self.location.column - location.column)
+        print('{}, {}'.format(row_offset, column_offset))
         return abs(row_offset) == column_offset

@@ -1,6 +1,7 @@
 from helper.Observer import Subject
 from helper.calculations import get_middle_point
 from model.Location import Location
+from model.pieces.InvalidMoveException import InvalidMoveException
 from model.pieces.RegularPiece import RegularPiece
 
 
@@ -42,29 +43,30 @@ class Board(Subject):
         """
         Moves the selected piece to a new location. Precondition select() must be called before calling this method.
         :param to_location: New location of the piece
+        :raises: InvalidMoveException when an invalid move is attempted.
         """
         if self.selected_piece is not None and not self.contains_piece(to_location):
             self.selected_piece.move(to_location)
             self.selected_piece = None
             self._notify()
+        else:
+            raise InvalidMoveException
 
     def capture(self, location):
         """
         Captures an opponents piece. Therefore it removes the opponents piece and moves the piece by two.
         Precondition select() must be called before calling this method
         :param location: Location of the piece to overtake.
-        :return: Boolean if the overtake was successful
         """
-        if self.selected_piece is not None:
-            opponent_piece_location = get_middle_point(self.selected_piece.location, location)
-            opponent_piece = self._get_piece(opponent_piece_location)
-            if opponent_piece is not None and opponent_piece.owner != self.selected_piece.owner:
-                if not self.contains_piece(location):
-                    self.move(location)
-                    self.pieces.remove(opponent_piece)
-                    self._notify()
-                    return True
-        return False
+        opponent_piece_location = get_middle_point(self.selected_piece.location, location)
+        opponent_piece = self._get_piece(opponent_piece_location)
+        if opponent_piece is not None and opponent_piece.owner != self.selected_piece.owner and not \
+                self.contains_piece(location):
+            self.move(location)
+            self.pieces.remove(opponent_piece)
+            self._notify()
+        else:
+            raise InvalidMoveException
 
     def _get_piece(self, location):
         try:
@@ -82,4 +84,3 @@ class Board(Subject):
             return self._get_piece(piece_location).owner
         except AttributeError:
             return None
-
