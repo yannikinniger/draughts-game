@@ -14,11 +14,17 @@ class Board(Subject):
         self.player_1 = player_1
         self.player_2 = player_2
         self.winner = None
+        self._set_up_board()
+
+    def _set_up_board(self):
+        """
+        Sets up the board to it's initial state.
+        """
         self.pieces = []
         for row_index in range(0, 3):
-            self._fill_row(player_1, row_index)
+            self._fill_row(self.player_1, row_index)
         for row_index in range(Board.size - 3, Board.size):
-            self._fill_row(player_2, row_index)
+            self._fill_row(self.player_2, row_index)
         self.selected_piece = None
 
     def _fill_row(self, player, row_index):
@@ -30,6 +36,12 @@ class Board(Subject):
         start_column = 0 if row_index % 2 == 1 else 1
         for column_index in range(start_column, Board.size, 2):
             self.pieces.append(RegularPiece(player, Location(row_index, column_index), player.direction))
+
+    def reset(self):
+        """
+        Resets the board to it's initial state
+        """
+        self._set_up_board()
 
     def contains_piece(self, location):
         return any(piece for piece in self.pieces if piece.location == location)

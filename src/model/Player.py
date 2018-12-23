@@ -21,6 +21,14 @@ class Player(Subject):
         self.remaining_time = 300.  # 5 Minutes in Seconds
         self.timer = 0
 
+    def reset(self):
+        """
+        Resets the score and timers of the player.
+        """
+        self.score = 0
+        self.remaining_time = 300.  # 5 Minutes in Seconds
+        self.timer = 0
+
     def start_timer(self):
         """
         Starts a timer to measure the the remaining time

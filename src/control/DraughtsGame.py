@@ -15,7 +15,10 @@ class DraughtsGame(AbstractDraughts, Subject):
         pass
 
     def restart(self):
-        pass
+        self.player_1.reset()
+        self.player_2.reset()
+        self.board.reset()
+        self.current_player = self.player_1
 
     def click_event(self, row, column):
         click_location = Location(row, column)
