@@ -21,20 +21,23 @@ class BoardView(QWidget, Observer, GuiMixin):
         self.selected_piece = None
 
     def _init_components(self):
+        self.winner_widget = QWidget()
+        self.winner_widget.setAutoFillBackground(True)
+        self.winner_widget.setFixedHeight(200)
+        self.winner_widget.hide()
         self.winner_label = QLabel()
         self.winner_label.setFont(QtGui.QFont('SansSerif', 26))
-        self.winner_label.setFixedHeight(100)
-        self.winner_label.setAutoFillBackground(True)
         self.winner_label.setStyleSheet('color: green')
         self.winner_label.setAlignment(Qt.AlignCenter)
-        self.winner_label.setVisible(False)
         self.restart_button = QPushButton('Restart')
-        self.restart_button.setVisible(False)
 
     def _layout(self):
+        winner_widget_layout = QVBoxLayout()
+        winner_widget_layout.addWidget(self.winner_label)
+        winner_widget_layout.addWidget(self.restart_button)
+        self.winner_widget.setLayout(winner_widget_layout)
         layout = QVBoxLayout()
-        layout.addWidget(self.winner_label)
-        layout.addWidget(self.restart_button)
+        layout.addWidget(self.winner_widget)
         self.setLayout(layout)
 
     def _setup_bindings(self):
@@ -42,8 +45,9 @@ class BoardView(QWidget, Observer, GuiMixin):
 
     def _restart(self):
         self.draughts_game.restart()
-        self.winner_label.setVisible(False)
-        self.restart_button.setVisible(False)
+        self.winner_widget.hide()
+        self.winner_label.hide()
+        self.restart_button.hide()
         self.repaint()
 
     def calculate_rectangle_size(self):
@@ -122,5 +126,4 @@ class BoardView(QWidget, Observer, GuiMixin):
         """
         if self.subject.winner is not None:
             self.winner_label.setText('{} wins'.format(self.subject.winner.name))
-            self.winner_label.setVisible(True)
-            self.restart_button.setVisible(True)
+            self.winner_widget.show()
