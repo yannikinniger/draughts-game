@@ -106,5 +106,5 @@ class BoardView(QWidget, Observer, GuiMixin):
 
     def _display_winner_if_present(self):
         if self.subject.winner is not None:
-            self.winner_label.setText('Player {} wins'.format(self.subject.winner.name))
+            self.winner_label.setText('{} wins'.format(self.subject.winner.name))
             self.winner_label.setVisible(True)
