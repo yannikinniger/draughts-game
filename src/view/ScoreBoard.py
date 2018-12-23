@@ -52,10 +52,10 @@ class ScoreBoard(QDockWidget, GuiMixin, Observer):
 
     def _indicate_current_player(self, current_player):
         if current_player.uid == 1:
-            ScoreBoard._change_label_text_color(self.player_1_label, 'red')
+            ScoreBoard._change_label_text_color(self.player_1_label, 'green')
             ScoreBoard._change_label_text_color(self.player_2_label, 'black')
         elif current_player.uid == 2:
-            ScoreBoard._change_label_text_color(self.player_2_label, 'red')
+            ScoreBoard._change_label_text_color(self.player_2_label, 'green')
             ScoreBoard._change_label_text_color(self.player_1_label, 'black')
 
     @staticmethod
