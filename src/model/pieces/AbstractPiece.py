@@ -5,9 +5,10 @@ from model.pieces.InvalidMoveException import InvalidMoveException
 
 class AbstractPiece:
 
-    def __init__(self, owner, location):
+    def __init__(self, owner, location, direction):
         self.owner = owner
         self.location = location
+        self.direction = direction
 
     def move(self, location):
         """

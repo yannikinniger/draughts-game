@@ -5,8 +5,7 @@ from model.Directions import Directions
 class RegularPiece(AbstractPiece):
 
     def __init__(self, owner, location, direction):
-        super().__init__(owner, location)
-        self.direction = direction
+        super().__init__(owner, location, direction)
 
     def _is_move_permitted(self, location):
         row_offset = self.location.row - location.row

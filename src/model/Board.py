@@ -2,6 +2,7 @@ from helper.Observer import Subject
 from helper.calculations import get_middle_point
 from model.Location import Location
 from model.pieces.InvalidMoveException import InvalidMoveException
+from model.pieces.KingPiece import KingPiece
 from model.pieces.RegularPiece import RegularPiece
 
 
@@ -57,6 +58,9 @@ class Board(Subject):
         """
         if self.selected_piece is not None and not self.contains_piece(to_location):
             self.selected_piece.move(to_location)
+            if self.selected_piece.location.row == Board.size - 1 or self.selected_piece.location.row == 0:
+                self.pieces.remove(self.selected_piece)
+                self.pieces.append(KingPiece.of(self.selected_piece))
             self.selected_piece = None
             self._notify()
         else:

@@ -59,6 +59,4 @@ class DraughtsGame(AbstractDraughts, Subject):
                 self.current_player = self.player_2
             else:
                 self.current_player = self.player_1
-        else:
-            self.pause = True
         self._notify()

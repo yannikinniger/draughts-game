@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
 
 from helper.Observer import Observer
+from model.pieces.KingPiece import KingPiece
 from view.GuiMixin import GuiMixin
 from view.drawing import draw_circle, draw_rect
 
@@ -78,6 +79,9 @@ class BoardView(QWidget, Observer, GuiMixin):
             circle_x = self.rect_width * piece.location.column
             circle_y = self.rect_height * piece.location.row
             draw_circle(self.rect_width, self.rect_height, circle_x, circle_y, painter, piece.owner.color)
+            if isinstance(piece, KingPiece):
+                draw_circle(self.rect_width - 30, self.rect_height - 30, circle_x + 15, circle_y + 15, painter,
+                            Qt.yellow)
 
     def draw_selected_piece(self, painter):
         selected_piece = self.subject.selected_piece
