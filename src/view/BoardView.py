@@ -1,20 +1,37 @@
 from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout
 
 from helper.Observer import Observer
+from view.GuiMixin import GuiMixin
 from view.drawing import draw_circle, draw_rect
 
 
-class BoardView(QWidget, Observer):
+class BoardView(QWidget, Observer, GuiMixin):
 
     def __init__(self, parent, draughts_game, board_size, size):
-        super().__init__(parent)
+        QWidget.__init__(self, parent)
+        GuiMixin.__init__(self)
         self.resize(size)
         self.draughts_game = draughts_game
         self.board_size = board_size
         self.rect_width, self.rect_height = self.calculate_rectangle_size()
         self.selected_piece = None
+
+    def _init_components(self):
+        self.winner_label = QLabel()
+        self.winner_label.setFont(QtGui.QFont('SansSerif', 26))
+        self.winner_label.setFixedHeight(100)
+        self.winner_label.setAutoFillBackground(True)
+        self.winner_label.setStyleSheet('color: green')
+        self.winner_label.setAlignment(Qt.AlignCenter)
+        self.winner_label.setVisible(False)
+
+    def _layout(self):
+        layout = QVBoxLayout()
+        layout.addWidget(self.winner_label)
+        self.setLayout(layout)
 
     def calculate_rectangle_size(self):
         """
@@ -36,6 +53,7 @@ class BoardView(QWidget, Observer):
         if self.subject.selected_piece is not None:
             self.draw_selected_piece(painter)
         self.render_pieces(painter)
+        self._display_winner_if_present()
         painter.end()
 
     def draw_background(self, painter):
@@ -81,3 +99,8 @@ class BoardView(QWidget, Observer):
         column = int(x / self.rect_width)
         row = int(y / self.rect_height)
         return row, column
+
+    def _display_winner_if_present(self):
+        if self.subject.winner is not None:
+            self.winner_label.setText('Player {} wins'.format(self.subject.winner.name))
+            self.winner_label.setVisible(True)

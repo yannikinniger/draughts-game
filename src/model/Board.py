@@ -10,6 +10,9 @@ class Board(Subject):
 
     def __init__(self, player_1, player_2):
         super().__init__()
+        self.player_1 = player_1
+        self.player_2 = player_2
+        self.winner = None
         self.pieces = []
         for row_index in range(0, 3):
             self._fill_row(player_1, row_index)
@@ -91,3 +94,14 @@ class Board(Subject):
             return self._get_piece(piece_location).owner
         except AttributeError:
             return None
+
+    def check_winner(self):
+        player_1_pieces = [piece for piece in self.pieces if piece.owner == self.player_1]
+        player_2_pieces = [piece for piece in self.pieces if piece.owner == self.player_2]
+        if len(player_1_pieces) == 0:
+            self.winner = self.player_2
+        elif len(player_2_pieces) == 0:
+            self.winner = self.player_1
+        else:
+            return False
+        self._notify()

@@ -53,8 +53,12 @@ class DraughtsGame(AbstractDraughts, Subject):
 
     def _switch_player(self):
         self.current_player.stop_timer()
-        if self.current_player == self.player_1:
-            self.current_player = self.player_2
+        has_winner = self.board.check_winner()
+        if not has_winner:
+            if self.current_player == self.player_1:
+                self.current_player = self.player_2
+            else:
+                self.current_player = self.player_1
         else:
-            self.current_player = self.player_1
+            self.pause = True
         self._notify()
